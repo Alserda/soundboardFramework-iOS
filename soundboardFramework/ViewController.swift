@@ -35,6 +35,11 @@ class ViewController: UIViewController {
             soundboard.id = response["id"].intValue
             soundboard.backgroundColor = response["data"]["backgroundColor"].stringValue
             soundboard.headerTitle = response["data"]["headerTitle"].stringValue
+            let backgroundImageURL = response["data"]["backgroundImageURL"].stringValue
+            if (!backgroundImageURL.isEmpty) {
+                soundboard.backgroundImageURL = backgroundImageURL
+            }
+
             
             let buttonStyle = ButtonStyle()
             buttonStyle.cornerRadius = response["data"]["buttonStyle"]["cornerRadius"].floatValue
@@ -57,16 +62,35 @@ class ViewController: UIViewController {
                 soundboard.audioButtons.append(audioButton)
             }
             
-            print("henkhenkhenkh", soundboard)
-            
             try! self.realm.write({ () -> Void in
                 self.realm.create(Soundboard.self, value: soundboard, update: true)
             })
-            
+
             self.obtainAudioFileData(soundboard, closure: { (finished) -> () in
-                print(finished)
-                self.styleApplication(soundboard)
+                if ((soundboard.backgroundImageURL?.isEmpty) != nil) {
+                    // Retrieve the image because there is an URL, then style the application
+                    print("Retrieve the image because there is an URL, then style the application")
+                    self.obtainBackgroundImage(soundboard, closure: { (finished) -> () in
+                        self.styleApplication(soundboard)
+                    })
+                } else {
+                    // Style the application because there is no image
+                    print("Style the application because there is no image")
+                    self.styleApplication(soundboard)
+                }
             })
+            }) { (error) -> () in
+                print(error)
+        }
+    }
+    
+    func obtainBackgroundImage(soundboard: Soundboard, closure: (finished: Bool) -> ()) {
+        backendConnection.fetchBackgroundImage(soundboard.backgroundImageURL!, success: { (response) -> () in
+            soundboard.backgroundImage = response
+            try! self.realm.write({ () -> Void in
+                self.realm.add(soundboard, update: true)
+            })
+            closure(finished: true)
             
             }) { (error) -> () in
                 print(error)
@@ -92,13 +116,21 @@ class ViewController: UIViewController {
         
     }
     func styleApplication(soundboard: Soundboard) {
-//        print(__FUNCTION__, soundboard)
+        self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
+        
+        if (soundboard.backgroundImage == nil) {
+            print("There isnt a background image, use default color")
+        } else {
+            print("There is a background image, use this!")
+        }
+        
+        
         let label = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 21))
         label.center = CGPointMake(self.view.frame.width / 2, 50)
         label.textAlignment = NSTextAlignment.Center
         label.text = soundboard.headerTitle
         self.view.addSubview(label)
-        self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
+
         for audioButton in soundboard.audioButtons {
             let button = UIButton(type: .Custom)
             let buttonStyle = audioButton.buttonStyle!
@@ -120,7 +152,7 @@ class ViewController: UIViewController {
             } else {
                 button.titleLabel?.font = UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize))
             }
-            print(UIFont(name: buttonStyle.fontFamily, size: CGFloat(buttonStyle.fontSize)))
+
             button.tag = audioButton.id
             button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
             self.view.addSubview(button)

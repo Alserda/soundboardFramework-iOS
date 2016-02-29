@@ -17,12 +17,15 @@ enum Router: URLRequestConvertible {
 
     case fetchSoundboardData()
     case fetchAudioFile(URL: String)
+    case fetchBackgroundImage(URL: String)
     
     var method: Alamofire.Method {
         switch self {
         case .fetchSoundboardData():
             return .GET
         case .fetchAudioFile(_):
+            return .GET
+        case .fetchBackgroundImage(_):
             return .GET
         }
     }
@@ -32,6 +35,8 @@ enum Router: URLRequestConvertible {
         case .fetchSoundboardData():
             return "/data.json"
         case .fetchAudioFile(let url):
+            return url
+        case .fetchBackgroundImage(let url):
             return url
         }
     }
@@ -79,6 +84,19 @@ class BackendConnection {
     
     func fetchAudioFile(AudioFileURL: String, success: (response: NSData) -> (), failed: (error: NSError) -> ()) -> Void {
         Alamofire.request(Router.fetchAudioFile(URL: AudioFileURL)).responseData { response in
+            switch (response.result) {
+            case .Success:
+                if let value = response.result.value {
+                    success(response: value)
+                }
+            case .Failure(let error):
+                failed(error: error)
+            }
+        }
+    }
+    
+    func fetchBackgroundImage(BackgroundImageURL: String, success: (response: NSData) -> (), failed: (error: NSError) -> ()) -> Void {
+        Alamofire.request(Router.fetchBackgroundImage(URL: BackgroundImageURL)).responseData { response in
             switch (response.result) {
             case .Success:
                 if let value = response.result.value {
