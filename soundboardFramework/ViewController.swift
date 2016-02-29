@@ -8,12 +8,12 @@
 
 import UIKit
 import RealmSwift
-import AVFoundation
+//import AVFoundation
 
 class ViewController: UIViewController {
     let backendConnection = BackendConnection.sharedInstance
     let realm = try! Realm()
-    var audioPlayer = AVAudioPlayer()
+//    var audioPlayer = AVAudioPlayer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 
     func fetchSoundboardData() {
         backendConnection.fetchSoundboard({ (response) -> () in
-            print(response)
+//            print(response)
             let soundboard = Soundboard()
             soundboard.id = response["id"].intValue
             soundboard.backgroundColor = response["data"]["backgroundColor"].stringValue
@@ -116,12 +116,18 @@ class ViewController: UIViewController {
         
     }
     func styleApplication(soundboard: Soundboard) {
-        self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
+        print(soundboard)
         
-        if (soundboard.backgroundImage == nil) {
-            print("There isnt a background image, use default color")
-        } else {
+        if (soundboard.backgroundImage != nil) {
             print("There is a background image, use this!")
+            let image = UIImage(data: soundboard.backgroundImage!)
+            let backgroundImage = UIImageView(image: image)
+            backgroundImage.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+            backgroundImage.contentMode = .ScaleAspectFill
+            self.view.addSubview(backgroundImage)
+        } else {
+            print("There isnt a background image, use default color")
+            self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
         }
         
         
@@ -132,45 +138,12 @@ class ViewController: UIViewController {
         self.view.addSubview(label)
 
         for audioButton in soundboard.audioButtons {
-            let button = UIButton(type: .Custom)
-            let buttonStyle = audioButton.buttonStyle!
-            button.layer.cornerRadius = CGFloat(audioButton.buttonStyle!.cornerRadius)
-            button.backgroundColor = UIColor(hexString: audioButton.buttonStyle!.backgroundColor)
+            let soundboardButton = SoundboardButton(type: .Custom)
+            soundboardButton.setup(audioButton: audioButton)
 
-            let buttonFrame = CGRectMake(   CGFloat(audioButton.x),
-                                            CGFloat(audioButton.y),
-                                            CGFloat(audioButton.width),
-                                            CGFloat(audioButton.height))
-            button.frame = buttonFrame
-            button.clipsToBounds = true
-            button.setTitle(audioButton.title, forState: UIControlState.Normal)
-            button.titleLabel?.textColor = UIColor(hexString: audioButton.buttonStyle!.fontColor)
-//            button.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 16)
-            if let fontStyle = buttonStyle.fontStyle {
-                let fontName: String = "\(buttonStyle.fontFamily)-\(fontStyle)"
-                button.titleLabel?.font = UIFont(name: fontName, size: CGFloat(buttonStyle.fontSize))
-            } else {
-                button.titleLabel?.font = UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize))
-            }
-
-            button.tag = audioButton.id
-            button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
-            self.view.addSubview(button)
+            self.view.addSubview(soundboardButton)
         }
     }
     
-    func buttonPressed(sender: UIButton!) {
-        let audioFile = self.realm.objectForPrimaryKey(AudioButton.self, key: sender.tag)
-        do {
-            try audioPlayer = AVAudioPlayer(data: (audioFile?.data!)!)
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
-        } catch {
-            print("error")
-        }
-        
-        
-        
-    }
 }
 
