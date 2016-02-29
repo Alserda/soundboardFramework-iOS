@@ -13,8 +13,15 @@ import AVFoundation
 class SoundboardButton: UIButton {
     let realm = try! Realm()
     var audioPlayer = AVAudioPlayer()
+    var audioButton: AudioButton = AudioButton()
     
-    func setup(audioButton audioButton: AudioButton) {
+    convenience init(audioButton: AudioButton) {
+        self.init()
+        self.audioButton = audioButton
+        setup()
+    }
+    
+    func setup() {
         let buttonStyle = audioButton.buttonStyle!
         self.tag = audioButton.id
         self.backgroundColor = UIColor(hexString: buttonStyle.backgroundColor)
@@ -36,6 +43,13 @@ class SoundboardButton: UIButton {
         } else {
             self.titleLabel?.font = UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize))
         }
+        
+        if (!buttonStyle.bottomBorderColor.isEmpty) {
+            print("add border")
+            let border = UIView(frame: CGRectMake(0, self.frame.height - 2, self.frame.width, 2))
+            border.backgroundColor = UIColor(hexString: buttonStyle.bottomBorderColor)
+            self.addSubview(border)
+        }
     }
     
     func buttonPressed(sender: UIButton!) {
@@ -48,7 +62,17 @@ class SoundboardButton: UIButton {
             print("error")
         }
     }
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
+
+    override var highlighted: Bool {
+        didSet {
+            if (highlighted) {
+                self.backgroundColor = UIColor(hexString: self.audioButton.buttonStyle!.backgroundColorHighlighted)
+            }
+            else {
+                self.backgroundColor = UIColor(hexString: self.audioButton.buttonStyle!.backgroundColor)
+            }
+            
+        }
+    }
+
 }

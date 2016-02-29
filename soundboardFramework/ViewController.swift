@@ -8,12 +8,10 @@
 
 import UIKit
 import RealmSwift
-//import AVFoundation
 
 class ViewController: UIViewController {
     let backendConnection = BackendConnection.sharedInstance
     let realm = try! Realm()
-//    var audioPlayer = AVAudioPlayer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +40,10 @@ class ViewController: UIViewController {
 
             
             let buttonStyle = ButtonStyle()
-            buttonStyle.cornerRadius = response["data"]["buttonStyle"]["cornerRadius"].floatValue
             buttonStyle.backgroundColor = response["data"]["buttonStyle"]["backgroundColor"].stringValue
+            buttonStyle.backgroundColorHighlighted = response["data"]["buttonStyle"]["backgroundColorHighlighted"].stringValue
+            buttonStyle.bottomBorderColor = response["data"]["buttonStyle"]["bottomBorderColor"].stringValue
+            buttonStyle.cornerRadius = response["data"]["buttonStyle"]["cornerRadius"].floatValue
             buttonStyle.fontColor = response["data"]["buttonStyle"]["font"]["color"].stringValue
             buttonStyle.fontFamily = response["data"]["buttonStyle"]["font"]["family"].stringValue
             buttonStyle.fontSize = response["data"]["buttonStyle"]["font"]["size"].intValue
@@ -138,8 +138,7 @@ class ViewController: UIViewController {
         self.view.addSubview(label)
 
         for audioButton in soundboard.audioButtons {
-            let soundboardButton = SoundboardButton(type: .Custom)
-            soundboardButton.setup(audioButton: audioButton)
+            let soundboardButton = SoundboardButton(audioButton: audioButton)
 
             self.view.addSubview(soundboardButton)
         }

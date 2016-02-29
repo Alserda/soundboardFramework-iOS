@@ -40,9 +40,12 @@ class AudioButton: Object {
 
 class ButtonStyle: Object {
     dynamic var backgroundColor: String = ""
+    dynamic var backgroundColorHighlighted: String = ""
+    dynamic var bottomBorderColor: String = ""
     dynamic var cornerRadius: Float = 0
     dynamic var fontColor: String = ""
     dynamic var fontFamily: String = ""
     dynamic var fontSize: Int = 15
     dynamic var fontStyle: String? = nil
+
 }
