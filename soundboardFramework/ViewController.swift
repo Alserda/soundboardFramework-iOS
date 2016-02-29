@@ -19,7 +19,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print(__FUNCTION__)
         print(UIFont.familyNames())
+
         fetchSoundboardData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,6 +101,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
         for audioButton in soundboard.audioButtons {
             let button = UIButton(type: .Custom)
+            let buttonStyle = audioButton.buttonStyle!
             button.layer.cornerRadius = CGFloat(audioButton.buttonStyle!.cornerRadius)
             button.backgroundColor = UIColor(hexString: audioButton.buttonStyle!.backgroundColor)
 
@@ -110,10 +113,14 @@ class ViewController: UIViewController {
             button.clipsToBounds = true
             button.setTitle(audioButton.title, forState: UIControlState.Normal)
             button.titleLabel?.textColor = UIColor(hexString: audioButton.buttonStyle!.fontColor)
-//            let font = UIFont(name: "Chalkduster", size: 13)
-            button.titleLabel?.font = UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize))
-//            button.titleLabel?.font = font
-            print(UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize)))
+//            button.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 16)
+            if let fontStyle = buttonStyle.fontStyle {
+                let fontName: String = "\(buttonStyle.fontFamily)-\(fontStyle)"
+                button.titleLabel?.font = UIFont(name: fontName, size: CGFloat(buttonStyle.fontSize))
+            } else {
+                button.titleLabel?.font = UIFont(name: audioButton.buttonStyle!.fontFamily, size: CGFloat(audioButton.buttonStyle!.fontSize))
+            }
+            print(UIFont(name: buttonStyle.fontFamily, size: CGFloat(buttonStyle.fontSize)))
             button.tag = audioButton.id
             button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
             self.view.addSubview(button)
@@ -122,8 +129,6 @@ class ViewController: UIViewController {
     
     func buttonPressed(sender: UIButton!) {
         let audioFile = self.realm.objectForPrimaryKey(AudioButton.self, key: sender.tag)
-        print(audioFile)
-        
         do {
             try audioPlayer = AVAudioPlayer(data: (audioFile?.data!)!)
             audioPlayer.prepareToPlay()

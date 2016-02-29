@@ -42,5 +42,5 @@ class ButtonStyle: Object {
     dynamic var fontColor: String = ""
     dynamic var fontFamily: String = ""
     dynamic var fontSize: Int = 15
-    dynamic var fontStyle: String = ""
+    dynamic var fontStyle: String? = nil
 }
