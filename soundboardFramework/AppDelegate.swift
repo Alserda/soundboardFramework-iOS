@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         print(Realm.Configuration.defaultConfiguration.path!)
+        
+        let soundboardOverview = SoundboardOverview()
+        let navController = UINavigationController(rootViewController: soundboardOverview)
+        
+        window?.rootViewController = navController
+        
         return true
 }
 
