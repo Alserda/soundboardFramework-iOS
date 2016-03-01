@@ -27,8 +27,27 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         self.collectionView?.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        
+        let addSoundboardButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addSoundboardButtonPressed:")
+        self.navigationItem.rightBarButtonItem = addSoundboardButton
     }
+    
+    func addSoundboardButtonPressed(sender: UIButton!) {
+        print(__FUNCTION__)
+        let alertController = UIAlertController(title: "Identifier", message: "Welke soundboard wil je? stuur ID", preferredStyle: .Alert)
+        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = "ID"
+        }
+        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel, handler: nil)
 
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
+            print(((alertController.textFields?.first)! as UITextField).text!)
+        }
+
+        alertController.addAction(OKAction)
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -51,12 +70,14 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
         backgroundImage.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)
         backgroundImage.contentMode = .ScaleAspectFill
         cell.addSubview(backgroundImage)
-//        cell.backgroundColor = UIColor.redColor()
         return cell
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print(__FUNCTION__, indexPath)
+        let soundboardDetail = SoundboardDetail()
+        soundboardDetail.soundboard = soundboards[indexPath.row]
+        self.navigationController?.pushViewController(soundboardDetail, animated: true)
     }
     
     
