@@ -27,8 +27,7 @@ class ViewController: UIViewController {
     }
 
     func fetchSoundboardData() {
-        backendConnection.fetchSoundboard({ (response) -> () in
-//            print(response)
+        backendConnection.fetchSoundboard("2", success: { (response) -> () in
             let soundboard = Soundboard()
             soundboard.id = response["id"].intValue
             soundboard.backgroundColor = response["data"]["backgroundColor"].stringValue
@@ -37,7 +36,7 @@ class ViewController: UIViewController {
             if (!backgroundImageURL.isEmpty) {
                 soundboard.backgroundImageURL = backgroundImageURL
             }
-
+            
             
             let buttonStyle = ButtonStyle()
             let retrievedButtonStyle = response["data"]["buttonStyle"]
@@ -50,7 +49,7 @@ class ViewController: UIViewController {
             buttonStyle.fontFamily = retrievedButtonStyle["font"]["family"].stringValue
             buttonStyle.fontSize = retrievedButtonStyle["font"]["size"].intValue
             buttonStyle.fontStyle = retrievedButtonStyle["font"]["style"].stringValue
-
+            
             for (_, _audioButton) in response["data"]["audioFiles"] {
                 let audioButton = AudioButton()
                 audioButton.id = _audioButton["id"].intValue
@@ -67,7 +66,7 @@ class ViewController: UIViewController {
             try! self.realm.write({ () -> Void in
                 self.realm.create(Soundboard.self, value: soundboard, update: true)
             })
-
+            
             self.obtainAudioFileData(soundboard, closure: { (finished) -> () in
                 if ((soundboard.backgroundImageURL?.isEmpty) != nil) {
                     // Retrieve the image because there is an URL, then style the application
@@ -115,8 +114,8 @@ class ViewController: UIViewController {
                     print(error)
             })
         }
-        
     }
+    
     func styleApplication(soundboard: Soundboard) {
         if (soundboard.backgroundImage != nil) {
             let image = UIImage(data: soundboard.backgroundImage!)

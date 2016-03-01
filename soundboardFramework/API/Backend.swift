@@ -11,17 +11,17 @@ import Alamofire
 import SwiftyJSON
 
 enum Router: URLRequestConvertible {
-//    static let baseURLString = "http://peter.al"
-    static let baseURLString = "http://peter.dev"
+    static let baseURLString = "http://peter.al"
+//    static let baseURLString = "http://peter.dev"
     static var OAuthToken: String?
 
-    case fetchSoundboardData()
+    case fetchSoundboardData(identifier: String)
     case fetchAudioFile(URL: String)
     case fetchBackgroundImage(URL: String)
     
     var method: Alamofire.Method {
         switch self {
-        case .fetchSoundboardData():
+        case .fetchSoundboardData(_):
             return .GET
         case .fetchAudioFile(_):
             return .GET
@@ -32,8 +32,8 @@ enum Router: URLRequestConvertible {
     
     var path: String {
         switch self {
-        case .fetchSoundboardData():
-            return "/data.json"
+        case .fetchSoundboardData(let identifier):
+            return "/soundboards/\(identifier).json"
         case .fetchAudioFile(let url):
             return url
         case .fetchBackgroundImage(let url):
@@ -67,8 +67,8 @@ enum Router: URLRequestConvertible {
 class BackendConnection {
     static let sharedInstance = BackendConnection()
     
-    func fetchSoundboard(success: (response: JSON) -> (), failed: (error: NSError) -> ()) -> Void {
-        Alamofire.request(Router.fetchSoundboardData()).responseJSON { response in
+    func fetchSoundboard(identifier: String, success: (response: JSON) -> (), failed: (error: NSError) -> ()) -> Void {
+        Alamofire.request(Router.fetchSoundboardData(identifier: identifier)).responseJSON { response in
             switch (response.result) {
             case .Success:
                 if let value = response.result.value {
@@ -82,8 +82,8 @@ class BackendConnection {
         }
     }
     
-    func fetchAudioFile(AudioFileURL: String, success: (response: NSData) -> (), failed: (error: NSError) -> ()) -> Void {
-        Alamofire.request(Router.fetchAudioFile(URL: AudioFileURL)).responseData { response in
+    func fetchAudioFile(audioFileURL: String, success: (response: NSData) -> (), failed: (error: NSError) -> ()) -> Void {
+        Alamofire.request(Router.fetchAudioFile(URL: audioFileURL)).responseData { response in
             switch (response.result) {
             case .Success:
                 if let value = response.result.value {

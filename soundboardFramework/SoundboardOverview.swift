@@ -12,6 +12,7 @@ import RealmSwift
 class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     let realm = try! Realm()
     let soundboards = try! Realm().objects(Soundboard)
+    let backendConnection = BackendConnection.sharedInstance
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -32,23 +33,6 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
         self.navigationItem.rightBarButtonItem = addSoundboardButton
     }
     
-    func addSoundboardButtonPressed(sender: UIButton!) {
-        print(__FUNCTION__)
-        let alertController = UIAlertController(title: "Identifier", message: "Welke soundboard wil je? stuur ID", preferredStyle: .Alert)
-        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "ID"
-        }
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel, handler: nil)
-
-        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
-            print(((alertController.textFields?.first)! as UITextField).text!)
-        }
-
-        alertController.addAction(OKAction)
-        alertController.addAction(cancelAction)
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -61,7 +45,6 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        print(__FUNCTION__, indexPath.row + 1, soundboards[indexPath.row])
         let soundboard = soundboards[indexPath.row]
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         
@@ -96,4 +79,33 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
         return 0
     }
     
+    func addSoundboardButtonPressed(sender: UIButton!) {
+        print(__FUNCTION__)
+        let alertController = UIAlertController(title: "Identifier", message: "Welke soundboard wil je? stuur ID", preferredStyle: .Alert)
+        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = "ID"
+        }
+        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel, handler: nil)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
+            let inputText = ((alertController.textFields?.first)! as UITextField).text!
+            self.retrieveSoundboardData(identifier: inputText)
+        }
+        
+        alertController.addAction(OKAction)
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func retrieveSoundboardData(identifier identifier: String) {
+        backendConnection.fetchSoundboard(identifier, success: { (response) -> () in
+            print(response)
+            let loadingScreen = LoadingSoundboard()
+            loadingScreen.recievedJSON = response
+            self.navigationController?.pushViewController(loadingScreen, animated: true)
+
+            }) { (error) -> () in
+                print(error)
+        }
+    }
 }

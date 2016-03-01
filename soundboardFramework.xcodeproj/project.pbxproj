@@ -12,6 +12,7 @@
 		A822BB831C85022B005F9706 /* SoundboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822BB821C85022B005F9706 /* SoundboardButton.swift */; };
 		A822BB851C8579DB005F9706 /* SoundboardOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822BB841C8579DB005F9706 /* SoundboardOverview.swift */; };
 		A84362221C86341800446754 /* SoundboardDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362211C86341800446754 /* SoundboardDetail.swift */; };
+		A84362241C86492600446754 /* LoadingSoundboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362231C86492600446754 /* LoadingSoundboard.swift */; };
 		A89E13E11C81CC7C003F9E3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89E13E01C81CC7C003F9E3F /* AppDelegate.swift */; };
 		A89E13E31C81CC7C003F9E3F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89E13E21C81CC7C003F9E3F /* ViewController.swift */; };
 		A89E13E61C81CC7C003F9E3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A89E13E41C81CC7C003F9E3F /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 		A822BB821C85022B005F9706 /* SoundboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardButton.swift; sourceTree = "<group>"; };
 		A822BB841C8579DB005F9706 /* SoundboardOverview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardOverview.swift; sourceTree = "<group>"; };
 		A84362211C86341800446754 /* SoundboardDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardDetail.swift; sourceTree = "<group>"; };
+		A84362231C86492600446754 /* LoadingSoundboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingSoundboard.swift; sourceTree = "<group>"; };
 		A89E13DD1C81CC7C003F9E3F /* soundboardFramework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = soundboardFramework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A89E13E01C81CC7C003F9E3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A89E13E21C81CC7C003F9E3F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				A89E13E21C81CC7C003F9E3F /* ViewController.swift */,
 				A822BB821C85022B005F9706 /* SoundboardButton.swift */,
 				A822BB841C8579DB005F9706 /* SoundboardOverview.swift */,
+				A84362231C86492600446754 /* LoadingSoundboard.swift */,
 				A84362211C86341800446754 /* SoundboardDetail.swift */,
 				A89E13E41C81CC7C003F9E3F /* Main.storyboard */,
 				A89E13E71C81CC7C003F9E3F /* Assets.xcassets */,
@@ -253,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A813AAF91C83724200314969 /* Database.swift in Sources */,
+				A84362241C86492600446754 /* LoadingSoundboard.swift in Sources */,
 				A84362221C86341800446754 /* SoundboardDetail.swift in Sources */,
 				A822BB831C85022B005F9706 /* SoundboardButton.swift in Sources */,
 				A89E13E31C81CC7C003F9E3F /* ViewController.swift in Sources */,
