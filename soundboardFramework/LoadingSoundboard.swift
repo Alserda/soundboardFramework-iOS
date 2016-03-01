@@ -14,13 +14,33 @@ class LoadingSoundboard: UIViewController {
     let backendConnection = BackendConnection.sharedInstance
     var recievedJSON: JSON = []
     let realm = try! Realm()
+    var progressView: UIProgressView?
+    var progressLabel: UILabel?
+
     
     override func viewDidLoad() {
+
+        self.view.backgroundColor = UIColor.whiteColor()
+        addProgressInformation()
         storeSoundboard()
+    }
+    
+    func addProgressInformation() {
+        progressView = UIProgressView(progressViewStyle: .Default)
+        progressView?.center = self.view.center
+        progressView?.progress = 0
+        view.addSubview(progressView!)
+        
+        progressLabel = UILabel()
+        let frame = CGRectMake(view.center.x - 25, view.center.y - 100, 100, 50)
+        progressLabel?.frame = frame
+        
+        view.addSubview(progressLabel!)
     }
     
     func storeSoundboard() {
         print(__FUNCTION__)
+        progressLabel?.text = "Soundboard opslaan..."
         let soundboard = Soundboard()
         soundboard.id = recievedJSON["id"].intValue
         soundboard.backgroundColor = recievedJSON["data"]["backgroundColor"].stringValue
@@ -65,17 +85,22 @@ class LoadingSoundboard: UIViewController {
                 // Retrieve the image because there is an URL, then style the application
                 print("Retrieve the image because there is an URL, then style the application")
                 self.obtainBackgroundImage(soundboard, closure: { (finished) -> () in
+                    self.progressView?.progress += 0.10
                     self.presentSoundboardDetail(withSoundboard: soundboard)
                 })
             } else {
                 // Style the application because there is no image
                 print("Style the application because there is no image")
+                self.progressView?.progress += 0.10
                 self.presentSoundboardDetail(withSoundboard: soundboard)
             }
         })
     }
     
     func obtainAudioFileData(soundboard: Soundboard, closure: (finished: Bool) -> ()) {
+        progressView?.progress += 0.10
+        progressLabel?.text = "Audiobestanden ophalen..."
+        let addedProgress: Float = (Float(0.80) / Float(soundboard.audioButtons.count))
         var counter = 0
         for audioFile in soundboard.audioButtons {
             backendConnection.fetchAudioFile(audioFile.url, success: { (response) -> () in
@@ -84,6 +109,7 @@ class LoadingSoundboard: UIViewController {
                     self.realm.add(audioFile, update: true)
                 })
                 counter += 1
+                self.progressView?.progress += addedProgress
                 if (counter == soundboard.audioButtons.count) {
                     closure(finished: true)
                 }
@@ -94,6 +120,7 @@ class LoadingSoundboard: UIViewController {
     }
     
     func obtainBackgroundImage(soundboard: Soundboard, closure: (finished: Bool) -> ()) {
+        progressLabel?.text = "Achtergrond foto ophalen..."
         backendConnection.fetchBackgroundImage(soundboard.backgroundImageURL!, success: { (response) -> () in
             soundboard.backgroundImage = response
             try! self.realm.write({ () -> Void in

@@ -25,6 +25,7 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
     
     override func viewDidLoad() {
         print(__FUNCTION__)
+        collectionView!.backgroundColor = UIColor(hexString: "#bdc3c7")
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         self.collectionView?.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
