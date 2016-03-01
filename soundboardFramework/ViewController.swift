@@ -15,8 +15,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(__FUNCTION__)
-        print(UIFont.familyNames())
+//        print(__FUNCTION__)
+//        print(UIFont.familyNames())
 
         fetchSoundboardData()
         
@@ -118,26 +118,22 @@ class ViewController: UIViewController {
         
     }
     func styleApplication(soundboard: Soundboard) {
-        print(soundboard)
-        
         if (soundboard.backgroundImage != nil) {
-            print("There is a background image, use this!")
             let image = UIImage(data: soundboard.backgroundImage!)
             let backgroundImage = UIImageView(image: image)
             backgroundImage.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
             backgroundImage.contentMode = .ScaleAspectFill
             self.view.addSubview(backgroundImage)
         } else {
-            print("There isnt a background image, use default color")
             self.view.backgroundColor = UIColor(hexString: soundboard.backgroundColor)
         }
         
         
-        let label = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 21))
-        label.center = CGPointMake(self.view.frame.width / 2, 50)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = soundboard.headerTitle
-        self.view.addSubview(label)
+//        let label = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 21))
+//        label.center = CGPointMake(self.view.frame.width / 2, 50)
+//        label.textAlignment = NSTextAlignment.Center
+//        label.text = soundboard.headerTitle
+//        self.view.addSubview(label)
 
         for audioButton in soundboard.audioButtons {
             let soundboardButton = SoundboardButton(audioButton: audioButton)
