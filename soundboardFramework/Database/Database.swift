@@ -39,6 +39,7 @@ class AudioButton: Object {
 }
 
 class ButtonStyle: Object {
+    dynamic var id: Int = 0
     dynamic var backgroundColor: String = ""
     dynamic var backgroundColorHighlighted: String = ""
     dynamic var bottomBorderColor: String = ""
@@ -47,5 +48,8 @@ class ButtonStyle: Object {
     dynamic var fontFamily: String = ""
     dynamic var fontSize: Int = 15
     dynamic var fontStyle: String? = nil
-
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
 }

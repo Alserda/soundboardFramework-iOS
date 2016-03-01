@@ -40,14 +40,16 @@ class ViewController: UIViewController {
 
             
             let buttonStyle = ButtonStyle()
-            buttonStyle.backgroundColor = response["data"]["buttonStyle"]["backgroundColor"].stringValue
-            buttonStyle.backgroundColorHighlighted = response["data"]["buttonStyle"]["backgroundColorHighlighted"].stringValue
-            buttonStyle.bottomBorderColor = response["data"]["buttonStyle"]["bottomBorderColor"].stringValue
-            buttonStyle.cornerRadius = response["data"]["buttonStyle"]["cornerRadius"].floatValue
-            buttonStyle.fontColor = response["data"]["buttonStyle"]["font"]["color"].stringValue
-            buttonStyle.fontFamily = response["data"]["buttonStyle"]["font"]["family"].stringValue
-            buttonStyle.fontSize = response["data"]["buttonStyle"]["font"]["size"].intValue
-            buttonStyle.fontStyle = response["data"]["buttonStyle"]["font"]["style"].stringValue
+            let retrievedButtonStyle = response["data"]["buttonStyle"]
+            buttonStyle.id = retrievedButtonStyle["id"].intValue
+            buttonStyle.backgroundColor = retrievedButtonStyle["backgroundColor"].stringValue
+            buttonStyle.backgroundColorHighlighted = retrievedButtonStyle["backgroundColorHighlighted"].stringValue
+            buttonStyle.bottomBorderColor = retrievedButtonStyle["bottomBorderColor"].stringValue
+            buttonStyle.cornerRadius = retrievedButtonStyle["cornerRadius"].floatValue
+            buttonStyle.fontColor = retrievedButtonStyle["font"]["color"].stringValue
+            buttonStyle.fontFamily = retrievedButtonStyle["font"]["family"].stringValue
+            buttonStyle.fontSize = retrievedButtonStyle["font"]["size"].intValue
+            buttonStyle.fontStyle = retrievedButtonStyle["font"]["style"].stringValue
 
             for (_, _audioButton) in response["data"]["audioFiles"] {
                 let audioButton = AudioButton()
