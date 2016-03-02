@@ -81,20 +81,35 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
     
     func addSoundboardButtonPressed(sender: UIButton!) {
         print(__FUNCTION__)
-        let alertController = UIAlertController(title: "Identifier", message: "Welke soundboard wil je? stuur ID", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Add soundboard", message: "Fill in the identifier of the soundboard you wish to join.", preferredStyle: .Alert)
         alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "ID"
+            textField.placeholder = "Identifier"
         }
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
             let inputText = ((alertController.textFields?.first)! as UITextField).text!
-            self.retrieveSoundboardData(identifier: inputText)
+            self.addSoundboardFormSubmitted(identifier: inputText)
         }
         
         alertController.addAction(OKAction)
         alertController.addAction(cancelAction)
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func addSoundboardFormSubmitted(identifier identifier: String) {
+        let soundboard = realm.objectForPrimaryKey(Soundboard.self, key: Int(identifier)!)
+        if soundboard == nil {
+            print("Add a soundboard")
+            retrieveSoundboardData(identifier: identifier)
+        } else {
+            print("Show an error because it already exists")
+            if let title = soundboard?.headerTitle {
+                showErrorMessage(title: "Error", message: "You already have the \"\(title)\" soundboard!", dismisstitle: "Woops")
+            } else {
+                showErrorMessage(title: "Error", message: "You already have the soundboard!", dismisstitle: "Woops")
+            }
+        }
     }
     
     func retrieveSoundboardData(identifier identifier: String) {

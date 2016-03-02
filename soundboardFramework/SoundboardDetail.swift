@@ -14,9 +14,9 @@ class SoundboardDetail: UIViewController {
     let realm = try! Realm()
     
     override func viewDidLoad() {
-        print("SoundboardDetail, ", __FUNCTION__)
         view.backgroundColor = UIColor(hexString: "#FADFAD")
         navigationController?.navigationBarHidden = true
+        print(soundboard.statusBarStyle)
         removeLoadingSoundboardFromStack()
         styleApplication()
         addBackButton()
@@ -117,6 +117,15 @@ class SoundboardDetail: UIViewController {
             let soundboardButton = SoundboardButton(audioButton: audioButton)
             
             self.view.addSubview(soundboardButton)
+        }
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        switch soundboard.statusBarStyle {
+        case "Light":
+            return .LightContent
+        default:
+            return .Default
         }
     }
     

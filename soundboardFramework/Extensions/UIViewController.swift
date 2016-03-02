@@ -36,4 +36,13 @@ extension UIViewController {
         alertController.addAction(UIAlertAction(title: declineTitle, style: .Cancel, handler: nil))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    /* Extention for showing error messages. */
+    func showErrorMessage(title title: String, message: String, dismisstitle: String) {
+        let alertController = UIAlertController(title: title, message:
+            message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: dismisstitle, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
 }
