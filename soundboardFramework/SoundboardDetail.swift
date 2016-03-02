@@ -13,10 +13,35 @@ class SoundboardDetail: UIViewController {
     
     override func viewDidLoad() {
         print("SoundboardDetail, ", __FUNCTION__)
-        view.backgroundColor = UIColor(hexString: "#bdc3c7")
-        navigationController?.navigationBarHidden = false
+        view.backgroundColor = UIColor(hexString: "#FADFAD")
+        navigationController?.navigationBarHidden = true
         removeLoadingSoundboardFromStack()
         styleApplication()
+        addBackButton()
+    }
+    
+    func addBackButton() {
+        let navigationBarHeight = navigationController!.navigationBar.frame.height
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+
+        let backBtnImage: UIImage = UIImage(named: "ios9-back-arrow")!
+        let backBtn: UIButton = UIButton(type: .Custom)
+        backBtn.setBackgroundImage(backBtnImage, forState: .Normal)
+        backBtn.addTarget(self, action: "backButtonPressed:", forControlEvents: .TouchUpInside)
+        backBtn.frame = CGRectMake(9, 12, 12.5, 21)
+        
+        let singleFingerTap = UITapGestureRecognizer(target: self, action: "backButtonPressed:")
+        let backButtonView: UIView = UIView(frame: CGRectMake(0, statusBarHeight, navigationBarHeight, navigationBarHeight))
+        backButtonView.bounds = CGRectOffset(backButtonView.bounds, 0, 0)
+        backButtonView.addSubview(backBtn)
+        backButtonView.addGestureRecognizer(singleFingerTap)
+        
+        view.addSubview(backButtonView)
+    }
+    
+    func backButtonPressed(sender: UIButton) {
+        print(__FUNCTION__)
+        navigationController?.popViewControllerAnimated(true)
     }
     
     func removeLoadingSoundboardFromStack() {
@@ -42,7 +67,7 @@ class SoundboardDetail: UIViewController {
                 UIApplication.sharedApplication().statusBarFrame.size.height)
             print(navigationBarHeight)
             let backgroundImage = UIImageView(image: image)
-            backgroundImage.frame = CGRectMake(0, navigationBarHeight, self.view.frame.width, self.view.frame.height)
+            backgroundImage.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
             backgroundImage.contentMode = .ScaleAspectFill
             self.view.addSubview(backgroundImage)
         } else {
@@ -54,5 +79,10 @@ class SoundboardDetail: UIViewController {
             
             self.view.addSubview(soundboardButton)
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        print(__FUNCTION__)
+        navigationController?.navigationBarHidden = false
     }
 }
