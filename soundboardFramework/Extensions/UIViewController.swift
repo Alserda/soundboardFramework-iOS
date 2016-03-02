@@ -26,4 +26,14 @@ extension UIViewController {
         transition.subtype = kCATransitionFromLeft
         navigationController!.view.layer.addAnimation(transition, forKey: nil)
     }
+    
+    /* Extention for confirmation messages. */
+    func showConfirmationMessage(title title: String, message: String, confirmTitle: String, declineTitle: String, completion: (result: Bool?) -> ()) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: confirmTitle, style: .Destructive, handler: { (action) -> Void in
+            completion(result: true)
+        }))
+        alertController.addAction(UIAlertAction(title: declineTitle, style: .Cancel, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
 }

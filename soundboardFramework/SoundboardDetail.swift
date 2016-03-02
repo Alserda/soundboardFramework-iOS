@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SoundboardDetail: UIViewController {
     var soundboard: Soundboard = Soundboard()
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         print("SoundboardDetail, ", __FUNCTION__)
@@ -18,14 +20,51 @@ class SoundboardDetail: UIViewController {
         removeLoadingSoundboardFromStack()
         styleApplication()
         addBackButton()
+        addSettingsButton()
+    }
+    
+    func addSettingsButton() {
+        let navigationBarHeight = navigationController!.navigationBar.frame.height
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        
+        let settingsImage: UIImage = UIImage(named: "gear")!.imageWithRenderingMode(.AlwaysTemplate)
+        let settingsButton = UIImageView(image: settingsImage)
+        settingsButton.tintColor = UIColor(hexString: soundboard.backButtonColor) //todo: add option for this
+
+        
+        let singleFingerTap = UITapGestureRecognizer(target: self, action: "settingsButtonPressed:")
+        let settingsButtonContainer: UIView = UIView(frame: CGRectMake((CGRectGetMaxX(view.frame) - navigationBarHeight), statusBarHeight, navigationBarHeight, navigationBarHeight))
+        settingsButton.frame = CGRectMake((settingsButtonContainer.frame.width - 30), 12, 21, 21)
+        print(settingsButtonContainer.frame)
+        settingsButtonContainer.addSubview(settingsButton)
+        settingsButtonContainer.addGestureRecognizer(singleFingerTap)
+        
+        view.addSubview(settingsButtonContainer)
+    }
+    
+    func settingsButtonPressed(sender: UIButton) {
+        showConfirmationMessage(title: "Remove?", message: "Are you sure that you want to remove this soundboard?", confirmTitle: "Yes, remove it", declineTitle: "No") { (result) -> () in
+            self.removeSoundboard()
+            self.customPopTransition(withDuration: 0.5)
+            self.navigationController?.popViewControllerAnimated(false)
+        }
+    }
+    
+    func removeSoundboard() {
+        print(__FUNCTION__)
+        try! realm.write({ () -> Void in
+            realm.delete((soundboard.audioButtons.first?.buttonStyle)!)
+            realm.delete(soundboard.audioButtons)
+            realm.delete(soundboard)
+        })
     }
     
     func addBackButton() {
         let navigationBarHeight = navigationController!.navigationBar.frame.height
         let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
 
-        let backButtonImage: UIImage = UIImage(named: "ios9-back-arrow")!.imageWithRenderingMode(.AlwaysTemplate)
-        let backButton = UIImageView(image: backButtonImage.imageWithRenderingMode(.AlwaysTemplate))
+        let backButtonImage: UIImage = UIImage(named: "back-chevron")!.imageWithRenderingMode(.AlwaysTemplate)
+        let backButton = UIImageView(image: backButtonImage)
         backButton.tintColor = UIColor(hexString: soundboard.backButtonColor)
         backButton.frame = CGRectMake(9, 12, 12.5, 21)
 
