@@ -39,7 +39,15 @@ class SoundboardDetail: UIViewController {
     
     func backButtonPressed(sender: UIButton) {
         print(__FUNCTION__)
-        navigationController?.popViewControllerAnimated(true)
+        
+        let transition = CATransition()
+        transition.duration = 0.60
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionReveal
+        transition.subtype = kCATransitionFromLeft
+        self.navigationController!.view.layer.addAnimation(transition, forKey: nil)
+        
+        navigationController?.popViewControllerAnimated(false)
     }
     
     func removeLoadingSoundboardFromStack() {

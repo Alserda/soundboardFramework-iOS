@@ -58,47 +58,17 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print(__FUNCTION__, indexPath)
-        
-        
-        
         let transition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.60
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = kCATransitionReveal
         transition.subtype = kCATransitionFromRight
         self.navigationController!.view.layer.addAnimation(transition, forKey: nil)
-//        let writeView : SoundboardDetail = soundboards[indexPath.row]
-//        self.navigationController?.pushViewController(writeView, animated: false)
-        
-        
-        
-        
-        
-        
-        
         
         let soundboardDetail = SoundboardDetail()
         soundboardDetail.soundboard = soundboards[indexPath.row]
         self.navigationController?.pushViewController(soundboardDetail, animated: false)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
-    
-    
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let size = self.view.frame.size.width / 2
