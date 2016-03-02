@@ -24,19 +24,17 @@ class SoundboardDetail: UIViewController {
         let navigationBarHeight = navigationController!.navigationBar.frame.height
         let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
 
-        let backBtnImage: UIImage = UIImage(named: "ios9-back-arrow")!
-        let backBtn: UIButton = UIButton(type: .Custom)
-        backBtn.setBackgroundImage(backBtnImage, forState: .Normal)
-        backBtn.addTarget(self, action: "backButtonPressed:", forControlEvents: .TouchUpInside)
-        backBtn.frame = CGRectMake(9, 12, 12.5, 21)
-        
+        let backButtonImage: UIImage = UIImage(named: "ios9-back-arrow")!.imageWithRenderingMode(.AlwaysTemplate)
+        let backButton = UIImageView(image: backButtonImage.imageWithRenderingMode(.AlwaysTemplate))
+        backButton.tintColor = UIColor(hexString: soundboard.backButtonColor)
+        backButton.frame = CGRectMake(9, 12, 12.5, 21)
+
         let singleFingerTap = UITapGestureRecognizer(target: self, action: "backButtonPressed:")
-        let backButtonView: UIView = UIView(frame: CGRectMake(0, statusBarHeight, navigationBarHeight, navigationBarHeight))
-        backButtonView.bounds = CGRectOffset(backButtonView.bounds, 0, 0)
-        backButtonView.addSubview(backBtn)
-        backButtonView.addGestureRecognizer(singleFingerTap)
+        let backButtonContainer: UIView = UIView(frame: CGRectMake(0, statusBarHeight, navigationBarHeight, navigationBarHeight))
+        backButtonContainer.addSubview(backButton)
+        backButtonContainer.addGestureRecognizer(singleFingerTap)
         
-        view.addSubview(backButtonView)
+        view.addSubview(backButtonContainer)
     }
     
     func backButtonPressed(sender: UIButton) {

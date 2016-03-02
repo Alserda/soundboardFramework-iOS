@@ -45,6 +45,7 @@ class LoadingSoundboard: UIViewController {
         let soundboard = Soundboard()
         soundboard.id = recievedJSON["id"].intValue
         soundboard.backgroundColor = recievedJSON["data"]["backgroundColor"].stringValue
+        soundboard.backButtonColor = recievedJSON["data"]["backButtonColor"].stringValue
         soundboard.headerTitle = recievedJSON["data"]["headerTitle"].stringValue
         let backgroundImageURL = recievedJSON["data"]["backgroundImageURL"].stringValue
         if (!backgroundImageURL.isEmpty) {

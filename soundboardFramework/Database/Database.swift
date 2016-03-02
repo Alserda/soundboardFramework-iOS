@@ -12,6 +12,7 @@ import RealmSwift
 class Soundboard: Object {
     dynamic var id: Int = 0
     dynamic var backgroundColor: String = ""
+    dynamic var backButtonColor: String = ""
     dynamic var backgroundImageURL: String? = nil
     dynamic var backgroundImage: NSData? = nil
     dynamic var headerTitle: String = ""
