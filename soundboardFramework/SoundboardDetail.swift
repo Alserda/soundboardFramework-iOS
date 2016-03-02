@@ -13,6 +13,7 @@ class SoundboardDetail: UIViewController {
     
     override func viewDidLoad() {
         print("SoundboardDetail, ", __FUNCTION__)
+        view.backgroundColor = UIColor(hexString: "#bdc3c7")
         navigationController?.navigationBarHidden = false
         removeLoadingSoundboardFromStack()
         styleApplication()
