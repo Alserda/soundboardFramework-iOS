@@ -11,8 +11,8 @@ import Alamofire
 import SwiftyJSON
 
 enum Router: URLRequestConvertible {
-    static let baseURLString = "http://peter.al"
-//    static let baseURLString = "http://peter.dev"
+//    static let baseURLString = "http://peter.al"
+    static let baseURLString = "http://peter.dev"
     static var OAuthToken: String?
 
     case fetchSoundboardData(identifier: String)

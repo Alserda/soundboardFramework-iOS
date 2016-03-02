@@ -13,6 +13,27 @@ class SoundboardDetail: UIViewController {
     
     override func viewDidLoad() {
         print("SoundboardDetail, ", __FUNCTION__)
+        navigationController?.navigationBarHidden = false
+        removeLoadingSoundboardFromStack()
+        styleApplication()
+    }
+    
+    func removeLoadingSoundboardFromStack() {
+        let viewControllers: NSMutableArray = NSMutableArray(array: navigationController!.viewControllers)
+        for vc in viewControllers {
+            if vc is LoadingSoundboard {
+                viewControllers.removeObjectIdenticalTo(vc)
+                navigationController?.viewControllers = NSArray(array: viewControllers) as! Array<UIViewController>
+            }
+        }
+    }
+    
+    func backToRootButtonPressed(sender: UIButton) {
+        print(__FUNCTION__)
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func styleApplication() {
         if (soundboard.backgroundImage != nil) {
             let image = UIImage(data: soundboard.backgroundImage!)
             

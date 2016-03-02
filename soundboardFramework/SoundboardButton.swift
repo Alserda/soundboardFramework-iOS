@@ -31,7 +31,6 @@ class SoundboardButton: UIButton {
         self.titleLabel?.textColor = UIColor(hexString: buttonStyle.fontColor)
         self.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
         
-        print("something, ", __FUNCTION__, audioButton)
         self.frame = CGRectMake(CGFloat(audioButton.x),
             CGFloat(audioButton.y),
             CGFloat(audioButton.width),
@@ -45,7 +44,6 @@ class SoundboardButton: UIButton {
         }
         
         if (!buttonStyle.bottomBorderColor.isEmpty) {
-            print("add border")
             let border = UIView(frame: CGRectMake(0, self.frame.height - 2, self.frame.width, 2))
             border.backgroundColor = UIColor(hexString: buttonStyle.bottomBorderColor)
             self.addSubview(border)

@@ -109,4 +109,9 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
                 print(error)
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        print(__FUNCTION__)
+        collectionView?.reloadData()
+    }
 }

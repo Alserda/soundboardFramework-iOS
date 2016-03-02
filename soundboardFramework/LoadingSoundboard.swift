@@ -19,8 +19,9 @@ class LoadingSoundboard: UIViewController {
 
     
     override func viewDidLoad() {
-
-        self.view.backgroundColor = UIColor.whiteColor()
+        
+        navigationController?.navigationBarHidden = true
+        view.backgroundColor = UIColor.whiteColor()
         addProgressInformation()
         storeSoundboard()
     }
@@ -136,6 +137,6 @@ class LoadingSoundboard: UIViewController {
     func presentSoundboardDetail(withSoundboard soundboard: Soundboard) {
         let soundboardDetail = SoundboardDetail()
         soundboardDetail.soundboard = soundboard
-        self.navigationController?.pushViewController(soundboardDetail, animated: true)
+        navigationController?.pushViewController(soundboardDetail, animated: true)
     }
 }
