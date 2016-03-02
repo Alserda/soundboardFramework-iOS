@@ -58,12 +58,7 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let transition = CATransition()
-        transition.duration = 0.60
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionReveal
-        transition.subtype = kCATransitionFromRight
-        self.navigationController!.view.layer.addAnimation(transition, forKey: nil)
+        customPushTransition(withDuration: 0.6)
         
         let soundboardDetail = SoundboardDetail()
         soundboardDetail.soundboard = soundboards[indexPath.row]
@@ -107,7 +102,8 @@ class SoundboardOverview: UICollectionViewController, UICollectionViewDelegateFl
             print(response)
             let loadingScreen = LoadingSoundboard()
             loadingScreen.recievedJSON = response
-            self.navigationController?.pushViewController(loadingScreen, animated: true)
+            self.customPushTransition(withDuration: 0.6)
+            self.navigationController?.pushViewController(loadingScreen, animated: false)
 
             }) { (error) -> () in
                 print(error)

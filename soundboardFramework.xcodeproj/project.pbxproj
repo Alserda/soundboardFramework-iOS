@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		92C2FD2FFFCAD104F2DFA34F /* Pods_soundboardFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776B7662DDF34168F8E9E88B /* Pods_soundboardFramework.framework */; };
 		A813AAF91C83724200314969 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = A813AAF81C83724200314969 /* Database.swift */; };
+		A81AF0E81C8798F3001A9A24 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81AF0E71C8798F3001A9A24 /* UIViewController.swift */; };
 		A822BB831C85022B005F9706 /* SoundboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822BB821C85022B005F9706 /* SoundboardButton.swift */; };
 		A822BB851C8579DB005F9706 /* SoundboardOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822BB841C8579DB005F9706 /* SoundboardOverview.swift */; };
 		A84362221C86341800446754 /* SoundboardDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362211C86341800446754 /* SoundboardDetail.swift */; };
@@ -26,6 +27,7 @@
 		776B7662DDF34168F8E9E88B /* Pods_soundboardFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_soundboardFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AAF4F0CA985C4BBD3D08FD9 /* Pods-soundboardFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-soundboardFramework.debug.xcconfig"; path = "Pods/Target Support Files/Pods-soundboardFramework/Pods-soundboardFramework.debug.xcconfig"; sourceTree = "<group>"; };
 		A813AAF81C83724200314969 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Database.swift; path = Database/Database.swift; sourceTree = "<group>"; };
+		A81AF0E71C8798F3001A9A24 /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = Extensions/UIViewController.swift; sourceTree = "<group>"; };
 		A822BB821C85022B005F9706 /* SoundboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardButton.swift; sourceTree = "<group>"; };
 		A822BB841C8579DB005F9706 /* SoundboardOverview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardOverview.swift; sourceTree = "<group>"; };
 		A84362211C86341800446754 /* SoundboardDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundboardDetail.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				A8E9F9E11C8220190021D504 /* UIColor.swift */,
+				A81AF0E71C8798F3001A9A24 /* UIViewController.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A81AF0E81C8798F3001A9A24 /* UIViewController.swift in Sources */,
 				A813AAF91C83724200314969 /* Database.swift in Sources */,
 				A84362241C86492600446754 /* LoadingSoundboard.swift in Sources */,
 				A84362221C86341800446754 /* SoundboardDetail.swift in Sources */,

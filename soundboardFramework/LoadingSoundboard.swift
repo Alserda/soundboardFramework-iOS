@@ -19,11 +19,11 @@ class LoadingSoundboard: UIViewController {
 
     
     override func viewDidLoad() {
-        
         navigationController?.navigationBarHidden = true
         view.backgroundColor = UIColor.whiteColor()
         addProgressInformation()
-        storeSoundboard()
+
+        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "storeSoundboard", userInfo: nil, repeats: false)
     }
     
     func addProgressInformation() {
@@ -32,16 +32,15 @@ class LoadingSoundboard: UIViewController {
         progressView?.progress = 0
         view.addSubview(progressView!)
         
-        progressLabel = UILabel()
-        let frame = CGRectMake(view.center.x - 25, view.center.y - 100, 100, 50)
-        progressLabel?.frame = frame
+        progressLabel = UILabel(frame: CGRectMake(0, view.center.y - 100, view.frame.width, 50))
+        progressLabel?.textAlignment = .Center
+        progressLabel?.text = "Soundboard opslaan..."
         
         view.addSubview(progressLabel!)
     }
     
     func storeSoundboard() {
         print(__FUNCTION__)
-        progressLabel?.text = "Soundboard opslaan..."
         let soundboard = Soundboard()
         soundboard.id = recievedJSON["id"].intValue
         soundboard.backgroundColor = recievedJSON["data"]["backgroundColor"].stringValue
@@ -136,8 +135,9 @@ class LoadingSoundboard: UIViewController {
     }
 
     func presentSoundboardDetail(withSoundboard soundboard: Soundboard) {
+        customPushTransition(withDuration: 0.6)
         let soundboardDetail = SoundboardDetail()
         soundboardDetail.soundboard = soundboard
-        navigationController?.pushViewController(soundboardDetail, animated: true)
+        navigationController?.pushViewController(soundboardDetail, animated: false)
     }
 }
